@@ -9,6 +9,8 @@
 <body>
     <div class="container">
         <h1>Hangman</h1>
+
+        <p>Guess: {{hang[0].getGuess()}}</p>
         {% if hang is empty %}
 
         <form class="form-horizontal" action="/new" method="post">
@@ -22,13 +24,17 @@
         <form class="form-horizontal" action="/guess" method="post">
             <div class="form-group">
                 <label class="control-label" for="userGuess">Enter your guess:</label>
-                <input class="form-control" id="userGuess" type="text">
+                <input class="form-control" name="userGuess" id="userGuess" type="text">
                 <button type="submit" name="button">Submit guess</button>
             </div>
         </form>
 
         {% endif %}
-
+        <form class="form-horizontal" action="/delete" method="post">
+            <div class="form-group">
+                <button type="submit" name="button">Delete</button>
+            </div>
+        </form>
         <img src="img/Hangman-0.png">
     </div>
 

@@ -46,9 +46,14 @@
         }
 
 
-
         function save(){
             $_SESSION['hang']= array($this);
+        }
+
+        static function submitGuess($guess)
+        {
+            $_SESSION['hang'][0]->setGuess($guess);
+            return $_SESSION['hang'];
         }
 
         static function getAll()

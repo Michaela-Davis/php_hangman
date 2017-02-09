@@ -12,6 +12,8 @@
 
     $app = new Silex\Application();
 
+    $app['debug'] = true;
+
     $app->register(new Silex\Provider\TwigServiceProvider(), array(
       'twig.path' => __DIR__.'/../views'
     ));
@@ -21,14 +23,20 @@
     });
 
     $app->post("/guess", function() use ($app) {
-
-        return $app->redirect('/');
+        $guess = $_POST['userGuess'];
+        Hang::submitGuess($guess);
+        return $app['twig']->render('homeView.html.twig', array('hang' => Hang::getAll()));
     });
 
     $app->post("/new", function() use ($app) {
-        $hang = new Hang("", array(), "help", 6);
+        $hang = new Hang("test", array(), "help", 6);
         $hang->save();
         return $app->redirect('/');
+    });
+
+    $app->post("/delete", function() use ($app) {
+        Hang::deleteAll();
+        return $app['twig']->render('test.html.twig');
     });
 
 
