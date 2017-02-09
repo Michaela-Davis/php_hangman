@@ -2,7 +2,6 @@
     date_default_timezone_set('America/Los_Angeles');
     require_once __DIR__."/../vendor/autoload.php";
     require_once __DIR__."/../src/hangman.php";
-    // require_once __DIR__."/../css/styles.css";
 
 
     session_start();
@@ -18,8 +17,20 @@
     ));
 
     $app->get("/", function() use ($app) {
-        return "string";
+        return $app['twig']->render('homeView.html.twig', array('hang' => Hang::getAll()));
     });
+
+    $app->post("/guess", function() use ($app) {
+
+        return $app->redirect('/');
+    });
+
+    $app->post("/new", function() use ($app) {
+        $hang = new Hang("", array(), "help", 6);
+        $hang->save();
+        return $app->redirect('/');
+    });
+
 
     return $app;
 ?>

@@ -7,6 +7,30 @@
     <title>Hangman</title>
 </head>
 <body>
+    <div class="container">
+        <h1>Hangman</h1>
+        {% if hang is empty %}
+
+        <form class="form-horizontal" action="/new" method="post">
+            <div class="form-group">
+                <button type="submit" name="button">Start a new game</button>
+            </div>
+        </form>
+
+        {% elseif hang is not empty%}
+
+        <form class="form-horizontal" action="/guess" method="post">
+            <div class="form-group">
+                <label class="control-label" for="userGuess">Enter your guess:</label>
+                <input class="form-control" id="userGuess" type="text">
+                <button type="submit" name="button">Submit guess</button>
+            </div>
+        </form>
+
+        {% endif %}
+
+        <img src="img/Hangman-0.png">
+    </div>
 
 </body>
 </html>
