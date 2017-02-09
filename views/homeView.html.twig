@@ -10,7 +10,8 @@
     <div class="container">
         <h1>Hangman</h1>
 
-        <p>Guess: {{hang[0].getGuess()}}</p>
+
+
         {% if hang is empty %}
 
         <form class="form-horizontal" action="/new" method="post">
@@ -20,6 +21,14 @@
         </form>
 
         {% elseif hang is not empty%}
+
+        <p>Guess: {{hang[0].getGuess}}</p>
+        <p>Guess Again: {{hang[0].getGuessAgain}}</p>
+        <p>Previous Guesses: {{dump(hang[0].getPreviousGuess)}}</p>
+        <p>Remaining Guesses: {{hang[0].getRemainingGuesses}}</p>
+        <p>Answer: {{hang[0].getAnswer}}</p>
+        <p>Answer Array: {{dump(hang[0].getAnswerArray)}}</p>
+        <p>Whole Thing: {{dump(hang[0])}}</p>
 
         <form class="form-horizontal" action="/guess" method="post">
             <div class="form-group">

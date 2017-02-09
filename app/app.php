@@ -29,7 +29,7 @@
     });
 
     $app->post("/new", function() use ($app) {
-        $hang = new Hang("test", array(), "help", 6);
+        $hang = new Hang("test", false, array("work","please"), "help", array("_","_","_","_"), 6);
         $hang->save();
         return $app->redirect('/');
     });
