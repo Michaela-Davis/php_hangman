@@ -19,17 +19,18 @@
     ));
 
     $app->get("/", function() use ($app) {
-        return $app['twig']->render('homeView.html.twig', array('hang' => Hang::getAll()));
+        $message = "message works";
+        return $app['twig']->render('homeView.html.twig', array('hang' => Hang::getAll(), "message"=>$message));
     });
 
     $app->post("/guess", function() use ($app) {
         $guess = $_POST['userGuess'];
         Hang::submitGuess($guess);
-        return $app['twig']->render('homeView.html.twig', array('hang' => Hang::getAll()));
+        return $app->redirect("/");
     });
 
     $app->post("/new", function() use ($app) {
-        $hang = new Hang("test", false, array("work","please"), "help", array("_","_","_","_"), 6);
+        $hang = new Hang("test", false, array("work","please"), "help", array("_","_","_","_"), 6, 0);
         $hang->save();
         return $app->redirect('/');
     });

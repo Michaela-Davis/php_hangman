@@ -29,6 +29,9 @@
         <p>Answer: {{hang[0].getAnswer}}</p>
         <p>Answer Array: {{dump(hang[0].getAnswerArray)}}</p>
         <p>Whole Thing: {{dump(hang[0])}}</p>
+        <p>Message: {{message}}</p>
+        <p>Image State: {{hang[0].getImageState}}</p>
+
 
         <form class="form-horizontal" action="/guess" method="post">
             <div class="form-group">
@@ -38,13 +41,14 @@
             </div>
         </form>
 
+        <img src="img/Hangman-{{hang[0].getImageState}}.png">
+        
         {% endif %}
         <form class="form-horizontal" action="/delete" method="post">
             <div class="form-group">
                 <button type="submit" name="button">Delete</button>
             </div>
         </form>
-        <img src="img/Hangman-2.png">
     </div>
 
 </body>
