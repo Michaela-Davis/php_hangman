@@ -19,8 +19,15 @@
     ));
 
     $app->get("/", function() use ($app) {
-        $message = "message works";
-        return $app['twig']->render('homeView.html.twig', array('hang' => Hang::getAll(), "message"=>$message));
+        if (!empty($_SESSION['hang'])){
+            if ($_SESSION['hang'][0]->getWinCheck() === "true") {
+                return $app['twig']->render('homeView.html.twig', array('hang' => Hang::getAll()));
+            } else {
+                return $app['twig']->render('homeView.html.twig', array('hang' => Hang::getAll()));
+            }
+        } else {
+            return $app['twig']->render('homeView.html.twig', array('hang' => Hang::getAll()));
+        }
     });
 
     $app->post("/guess", function() use ($app) {
@@ -30,14 +37,14 @@
     });
 
     $app->post("/new", function() use ($app) {
-        $hang = new Hang("test", false, array("work","please"), "help", array("_","_","_","_"), 6, 0);
+        $hang = new Hang("test", false, false, array("work","please"), "help", array("_","_","_","_"), 6, 0, "");
         $hang->save();
         return $app->redirect('/');
     });
 
     $app->post("/delete", function() use ($app) {
         Hang::deleteAll();
-        return $app['twig']->render('test.html.twig');
+        return $app->redirect('/');
     });
 
 

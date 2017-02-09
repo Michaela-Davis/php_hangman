@@ -20,33 +20,39 @@
             </div>
         </form>
 
-        {% elseif hang is not empty%}
+        {% elseif hang is not empty %}
 
-        <p>Guess: {{hang[0].getGuess}}</p>
-        <p>Guess Again: {{hang[0].getGuessAgain}}</p>
-        <p>Previous Guesses: {{dump(hang[0].getPreviousGuess)}}</p>
-        <p>Remaining Guesses: {{hang[0].getRemainingGuesses}}</p>
-        <p>Answer: {{hang[0].getAnswer}}</p>
-        <p>Answer Array: {{dump(hang[0].getAnswerArray)}}</p>
-        <p>Whole Thing: {{dump(hang[0])}}</p>
-        <p>Message: {{message}}</p>
-        <p>Image State: {{hang[0].getImageState}}</p>
+            {% if hang[0].getLoseCheck == "true" %}
+            <p>Message: {{hang[0].getMessage}}</p>
+            {% else %}
 
+            <p>Guess: {{hang[0].getGuess}}</p>
+            <p>Win Check: {{hang[0].getWinCheck}}</p>
+            <p>Lose Check: {{hang[0].getLoseCheck}}</p>
+            <p>Previous Guesses: {{dump(hang[0].getPreviousGuess)}}</p>
+            <p>Remaining Guesses: {{hang[0].getRemainingGuesses}}</p>
+            <p>Answer: {{hang[0].getAnswer}}</p>
+            <p>Answer Array: {{dump(hang[0].getAnswerArray)}}</p>
+            <p>Whole Thing: {{dump(hang[0])}}</p>
+            <p>Message: {{hang[0].getMessage}}</p>
+            <p>Image State: {{hang[0].getImageState}}</p>
 
-        <form class="form-horizontal" action="/guess" method="post">
-            <div class="form-group">
-                <label class="control-label" for="userGuess">Enter your guess:</label>
-                <input class="form-control" name="userGuess" id="userGuess" type="text">
-                <button type="submit" name="button">Submit guess</button>
-            </div>
-        </form>
+            <form class="form-horizontal" action="/guess" method="post">
+                <div class="form-group">
+                    <label class="control-label" for="userGuess">Enter your guess:</label>
+                    <input class="form-control" name="userGuess" id="userGuess" type="text">
+                    <button type="submit" name="button">Submit guess</button>
+                </div>
+            </form>
+
+            {% endif %}
 
         <img src="img/Hangman-{{hang[0].getImageState}}.png">
-        
+
         {% endif %}
         <form class="form-horizontal" action="/delete" method="post">
             <div class="form-group">
-                <button type="submit" name="button">Delete</button>
+                <button type="submit" name="button">New Game</button>
             </div>
         </form>
     </div>

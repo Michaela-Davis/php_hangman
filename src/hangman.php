@@ -2,21 +2,25 @@
     class Hang {
 
         private $guess;
-        private $guessAgain;
+        private $winCheck;
+        private $loseCheck;
         private $previousGuess;
         private $answer;
         private $answerArray;
         private $remainingGuesses;
         private $imageState;
+        private $message;
 
-        function __construct($guess, $guessAgain, $previousGuess, $answer, $answerArray, $remainingGuesses, $imageState) {
+        function __construct($guess, $winCheck, $loseCheck, $previousGuess, $answer, $answerArray, $remainingGuesses, $imageState, $message) {
             $this->guess = $guess;
-            $this->guessAgain = $guessAgain;
+            $this->winCheck = $winCheck;
+            $this->loseCheck = $loseCheck;
             $this->previousGuess = $previousGuess;
             $this->answer = $answer;
             $this->answerArray = $answerArray;
             $this->remainingGuesses = $remainingGuesses;
             $this->imageState = $imageState;
+            $this->message = $message;
         }
 
         function getGuess(){
@@ -27,12 +31,20 @@
             $this->guess = (string) $guess;
         }
 
-        function getGuessAgain(){
-            return $this->guessAgain;
+        function getWinCheck(){
+            return $this->winCheck;
         }
 
-        function setGuessAgain($guessAgain){
-            $this->guessAgain = (string) $guessAgain;
+        function setWinCheck($winCheck){
+            $this->winCheck = $winCheck;
+        }
+
+        function getLoseCheck(){
+            return $this->loseCheck;
+        }
+
+        function setLoseCheck($loseCheck){
+            $this->loseCheck = $loseCheck;
         }
 
         function getPreviousGuess(){
@@ -55,7 +67,7 @@
             return $this->answerArray;
         }
 
-        function setAnswerArray(){
+        function setAnswerArray($answerArray){
             $this->answerArray = $answerArray;
         }
 
@@ -75,6 +87,14 @@
             $this->imageState = $imageState;
         }
 
+        function getMessage(){
+            return $this->message;
+        }
+
+        function setMessage($message){
+            $this->message = $message;
+        }
+
 
         function save(){
             $_SESSION['hang']= array($this);
@@ -91,18 +111,37 @@
                     $remaining = $_SESSION['hang'][0]->getRemainingGuesses();
                     $remaining = $remaining -1;
                     $_SESSION['hang'][0]->setRemainingGuesses($remaining);
+
                     $prevArray = $_SESSION['hang'][0]->getPreviousGuess();
                     array_push($prevArray,$guess);
                     $_SESSION['hang'][0]->setPreviousGuess($prevArray);
+
                     $imageNumber = $_SESSION['hang'][0]->getImageState();
                     $imageNumber = $imageNumber +1;
                     $_SESSION['hang'][0]->setImageState($imageNumber);
+                    $_SESSION['hang'][0]->setMessage("That was a wrong letter");
+
+                    if ($_SESSION['hang'][0]->getRemainingGuesses() === 0) {
+                        $_SESSION['hang'][0]->setLoseCheck("true");
+                        $_SESSION['hang'][0]->setMessage("You lost...");
+                    }
+
                 } else {
-                    //replace guess in answer array location
+                    $correctAnswer = $_SESSION['hang'][0]->getAnswerArray();
+                    array_splice($correctAnswer, $answerValue, 1, $guess);
+                    $_SESSION['hang'][0]->setAnswerArray($correctAnswer);
+
+                    $winCheck = join("", $correctAnswer);
+                    if ($winCheck === $_SESSION['hang'][0]->getAnswer()) {
+                        $_SESSION['hang'][0]->setWinCheck("true");
+                        $_SESSION['hang'][0]->setMessage("You won!");
+                    } else {
+                        $_SESSION['hang'][0]->setMessage("That was a correct letter");
+                    }
                 }
-                $_SESSION['hang'][0]->setGuessAgain("true");
-            } else{
-                $_SESSION['hang'][0]->setGuessAgain("false");
+
+            } else {
+                $_SESSION['hang'][0]->setMessage("You have already entered that letter");
 
             }
             return $_SESSION['hang'];
