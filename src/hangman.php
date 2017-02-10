@@ -127,8 +127,14 @@
                     }
 
                 } else {
+                    // $answerKeys = array_keys($_SESSION['hang'][0]->getPreviousGuess(),$guess);
+                    $split = str_split($_SESSION['hang'][0]->getAnswer());
+                    $ray = array_keys($split, $guess); // ["a", "a"]
                     $correctAnswer = $_SESSION['hang'][0]->getAnswerArray();
-                    array_splice($correctAnswer, $answerValue, 1, $guess);
+
+                    for($x=0;$x<count($ray);$x++){
+                        array_splice($correctAnswer, $ray[$x], 1, $guess);
+                    }
                     $_SESSION['hang'][0]->setAnswerArray($correctAnswer);
 
                     $winCheck = join("", $correctAnswer);

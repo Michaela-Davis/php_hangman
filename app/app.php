@@ -37,7 +37,13 @@
     });
 
     $app->post("/new", function() use ($app) {
-        $hang = new Hang("test", false, false, array("work","please"), "help", array("_","_","_","_"), 6, 0, "");
+        $length = strlen($_POST["newAnswer"]);
+        $arrayAnswer = array();
+        for($x = 0; $x < $length; $x++){
+            array_push($arrayAnswer, "_");
+        }
+
+        $hang = new Hang("", false, false, array(), $_POST["newAnswer"], $arrayAnswer, 6, 0, "");
         $hang->save();
         return $app->redirect('/');
     });
